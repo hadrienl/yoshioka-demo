@@ -29,19 +29,20 @@ YUI().add('demo_index_view', function(Y) {
 				})
 			);
 			
-			this.setView(
-				'header',
-				CLASS_HEADER
+			this._header = new Y.demo.HeaderSubview();
+			this.container.one('.'+CLASS_HEADER).append(
+				this._header.render()
 			);
-			this.setView(
-				'footer',
-				CLASS_FOOTER
+			
+			this._footer = new Y.demo.FooterSubview();
+			this.container.one('.'+CLASS_FOOTER).append(
+				this._footer.render()
 			);
 		},
 		bindUI: function()
 		{
 			Y.ys.Coord.after(
-				'change',
+				'mainviewChange',
 				function(e, view)
 				{
 					this.setView(
@@ -51,10 +52,15 @@ YUI().add('demo_index_view', function(Y) {
 				},
 				this
 			);
+		},
+		destructor: function()
+		{
+			this._header.destroy();
+			this._footer.destroy();
 		}
 	},
 	{
 		NAME: 'IndexView'
 	});
 	
-}, '1.0', {requires: ["ys_view", "css_index_skin"]})
+}, '1.0', {requires: ["ys_view", "demo_header_subview", "demo_footer_subview", "css_index_skin"]})
